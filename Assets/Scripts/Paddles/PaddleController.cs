@@ -52,7 +52,7 @@ public abstract class PaddleController : MonoBehaviour
 
     void Update()
     {
-        if (!isReady) return;
+        if (!isReady || GameManager.Instance.CurrentState == GameManager.GameState.GameOver) return;
 
         Move();
     }

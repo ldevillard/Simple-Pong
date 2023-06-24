@@ -15,7 +15,7 @@ public class PlayerController : PaddleController
 
             float clampedX = Mathf.Clamp(worldPos.x, -camWidth / 2 + spriteSize / 2, camWidth / 2 - spriteSize / 2);
 
-            transform.position = Vector3.Lerp(transform.position, new Vector2(clampedX, transform.position.y), speed * Time.deltaTime);
+            transform.position = Vector2.Lerp(transform.position, new Vector2(clampedX, transform.position.y), speed * Time.deltaTime);
         }
     }
 }
