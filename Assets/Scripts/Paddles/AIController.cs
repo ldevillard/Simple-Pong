@@ -15,7 +15,7 @@ public class AIController : PaddleController
             if (ballPos.y > 0)
             {
                 Vector2 clampedPos = new Vector2(Mathf.Clamp(ballPos.x, -camWidth / 2 + spriteSize / 2, camWidth / 2 - spriteSize / 2), transform.position.y);
-                transform.position = Vector2.Lerp(transform.position, clampedPos, (speed / 2.75f) * Time.deltaTime);
+                transform.position = Vector2.Lerp(transform.position, clampedPos, (speed / 2.5f) * Time.deltaTime);
             }
             else
             {

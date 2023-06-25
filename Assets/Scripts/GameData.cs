@@ -12,4 +12,5 @@ public class GameData : ScriptableObject
 
     //Optional part
     public float PaddleSpeed;
+    public float ballSpeedIncreaseFactor = 1;
 }

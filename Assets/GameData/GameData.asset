@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   BallSpeed: 7
-  GoalsWidth: 1.5
+  GoalsWidth: 1
   BoardColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   PaddleSpeed: 20
+  ballSpeedIncreaseFactor: 1.2

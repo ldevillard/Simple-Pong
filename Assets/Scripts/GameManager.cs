@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        Ball ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity);
+        Ball ball = Instantiate(ballPrefab, Vector3.zero.SetZ(-5), Quaternion.identity);
         currentBall = ball;
         Vector2 ballScale = ball.transform.localScale;
         AudioManager.Instance.PlaySound(audioData.GetClip(1), true);
@@ -128,7 +128,10 @@ public class GameManager : MonoBehaviour
         {
             if (CurrentState == GameState.InGame)
             {
+                // if (CurrentState != GameState.Pause)
+                // {
                 yield return new WaitForSeconds(15f);
+
                 float randomRotation = UnityEngine.Random.Range(0f, 360f);
                 GameObject obstacle = Instantiate(ObstaclePrefab[UnityEngine.Random.Range(0, ObstaclePrefab.Length)], GetRandomPositionInBounds(GenerationArea), Quaternion.Euler(0f, 0f, randomRotation));
                 Vector2 obstacleScale = obstacle.transform.localScale;
@@ -136,10 +139,16 @@ public class GameManager : MonoBehaviour
                 AudioManager.Instance.PlaySound(audioData.GetClip(1), true);
 
                 obstacle.transform.DOScale(obstacleScale, 0.3f).From(0).SetEase(Ease.OutBack);
+                // for (int i = 0; i < 10; i++)
+                // {
+                //     if (CurrentState == GameState.Pause)
+                //         break;
+                //     yield return new WaitForSeconds(0.5f);
+                // }
                 yield return new WaitForSeconds(5f);
                 AudioManager.Instance.PlaySound(audioData.GetClip(2), true);
-
                 obstacle.transform.DOScale(0, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(obstacle));
+                // }
             }
             else if (CurrentState == GameState.GameOver)
             {

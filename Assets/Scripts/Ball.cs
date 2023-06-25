@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
     float speed;
 
     public TrailRenderer trail;
+    public SpriteRenderer spriteRenderer;
 
     Tween scalingTween;
 
@@ -21,8 +22,12 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     ParticleSystem explosionFx;
+    [SerializeField]
+    ParticleSystem powerUpFx;
 
     public AudioData audioData;
+
+    Coroutine IncreaseSpeedCoroutine;
 
     void Awake()
     {
@@ -50,6 +55,9 @@ public class Ball : MonoBehaviour
             isReady = true;
             pivot.transform.localScale = Vector2.zero;
             rb.velocity = dir * speed;
+
+            if (GameManager.Instance.gameData.ballSpeedIncreaseFactor > 1)
+                IncreaseSpeedCoroutine = StartCoroutine(IncreaseSpeed(GameManager.Instance.gameData.ballSpeedIncreaseFactor));
         });
     }
 
@@ -68,9 +76,24 @@ public class Ball : MonoBehaviour
         return new Vector2(x, y).normalized;
     }
 
+    IEnumerator IncreaseSpeed(float factor)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(10f);
+            transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+            spriteRenderer.DOColor(Color.red, 0.2f).OnComplete(() => spriteRenderer.DOColor(Color.white, 0.2f));
+            speed *= factor;
+            AudioManager.Instance.PlaySound(audioData.GetClip(2));
+            powerUpFx.Play();
+        }
+    }
+
     public void Explode()
     {
         Instantiate(explosionFx, transform.position, Quaternion.identity);
+        if (IncreaseSpeedCoroutine != null)
+            StopCoroutine(IncreaseSpeedCoroutine);
         Destroy(gameObject);
     }
 
